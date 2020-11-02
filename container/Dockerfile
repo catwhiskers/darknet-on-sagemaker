@@ -22,12 +22,15 @@ RUN ldconfig -v
 
 ## Build darknet
 RUN cd opt && git clone https://github.com/AlexeyAB/darknet
+RUN cd /opt/darknet && sed -i 's/GPU=0/GPU=1/g' Makefile && \
+    sed -i 's/CUDNN=0/CUDNN=1/g' Makefile && \
+    sed -i 's/LIBSO=0/LIBSO=1/g' Makefile
 RUN cd /opt/darknet && ./build.sh
 
 ENV PATH="/opt/darknet:${PATH}"
 WORKDIR /opt/program
 
-COPY train.py /opt/program
+COPY main.py /opt/program
 #entry point for sagemaker training job 
-ENTRYPOINT ["python", "train.py"]
+ENTRYPOINT ["python", "main.py"]
 
