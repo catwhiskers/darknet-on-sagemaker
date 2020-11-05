@@ -34,13 +34,11 @@ def get_train_val_dirs():
 
 
 
-def train():
-    pass 
 
    
 import tarfile 
 import shutil 
-if __name__ == "__main__":
+def train():
     train_dir, validation_dir = get_train_val_dirs()
     train_dataset = get_dataset(train_dir)
     val_dataset = get_dataset(validation_dir)
@@ -67,3 +65,5 @@ if __name__ == "__main__":
     shutil.move("tlmodel.tar.gz", model_artifacts_path)
     
 
+if __name__ == "__main__":
+    train()
