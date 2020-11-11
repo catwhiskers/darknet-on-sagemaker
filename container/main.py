@@ -78,6 +78,14 @@ def modify_cfg_based_on_hyperparams(cfg_file_path):
     tmp_cfg.close()
     shutil.copy(tmp_cfg_path, cfg_file_path)
 
+def copytree(src, dst, symlinks=False, ignore=None):
+    for item in os.listdir(src):
+        s = os.path.join(src, item)
+        d = os.path.join(dst, item)
+        if os.path.isdir(s):
+            shutil.copytree(s, d, symlinks, ignore)
+        else:
+            shutil.copy2(s, d)
 
 def train():
     cfg_path, dinfo_path, weight_path, backup_path = get_configuration_paths()  
@@ -85,7 +93,7 @@ def train():
         modify_cfg_based_on_hyperparams(cfg_path)
     train_local(cfg_path,dinfo_path,weight_path)
     if os.path.exists(backup_path):
-        shutil.copytree(backup_path, model_artifacts_path)
+        copytree(backup_path, model_artifacts_path)
 
 def mk_dir(sub_dir, working_dir=None):
     output_path = None 
